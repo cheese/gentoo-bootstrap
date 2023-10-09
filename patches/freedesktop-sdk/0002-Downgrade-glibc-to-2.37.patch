@@ -1,0 +1,58 @@
+From 8077e475592936fb164a2996bda339dc186dc5bc Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Fri, 6 Oct 2023 11:01:14 +0800
+Subject: [PATCH 2/6] Downgrade glibc to 2.37
+
+---
+ elements/bootstrap/glibc.bst                | 1 +
+ elements/bootstrap/include/glibc-source.yml | 4 ++--
+ elements/components/shadow.bst              | 3 +--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/elements/bootstrap/glibc.bst b/elements/bootstrap/glibc.bst
+index b4ef5323f..afd6bcf0e 100644
+--- a/elements/bootstrap/glibc.bst
++++ b/elements/bootstrap/glibc.bst
+@@ -85,6 +85,7 @@ variables:
+     --enable-stack-protector=strong \
+     --enable-bind-now \
+     --disable-werror \
++    --disable-crypt \
+     %{arch_options}
+ 
+ public:
+diff --git a/elements/bootstrap/include/glibc-source.yml b/elements/bootstrap/include/glibc-source.yml
+index 4e6c77099..42a9490cd 100644
+--- a/elements/bootstrap/include/glibc-source.yml
++++ b/elements/bootstrap/include/glibc-source.yml
+@@ -1,7 +1,7 @@
+ sources:
+ - kind: git_repo
+   url: sourceware:glibc.git
+-  track: release/2.38/master
+-  ref: glibc-2.38-25-gf6445dc94da185b3d1ee283f0ca0a34c4e1986cc
++  track: release/2.37/master
++  ref: glibc-2.37-45-gb4e23c75aea756b4bddc4abcf27a1c6dca8b6bd3
+ - kind: patch_queue
+   path: patches/glibc
+diff --git a/elements/components/shadow.bst b/elements/components/shadow.bst
+index f39259548..3416753d9 100644
+--- a/elements/components/shadow.bst
++++ b/elements/components/shadow.bst
+@@ -18,7 +18,6 @@ variables:
+   conf-local: >-
+     --with-libpam
+     --without-selinux
+-    --without-libbsd
+     --enable-man
+ 
+   make-install: make -j1 install DESTDIR="%{install-root}" ubindir="%{bindir}" usbindir="%{sbindir}"
+@@ -61,4 +60,4 @@ sources:
+   track: '*.*'
+   exclude:
+   - '*-rc*'
+-  ref: 4.14.0-0-g014536f5d55df33fc032d7a14d9f9d975d569722
++  ref: 4.13-0-g24b44b686ea2221405cfd806dede046cf1fd9584
+-- 
+2.41.0
+

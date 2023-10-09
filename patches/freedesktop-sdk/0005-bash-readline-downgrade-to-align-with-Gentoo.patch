@@ -1,0 +1,63 @@
+From 10c74312322f17cd3889d5a9a6f893ceaad92873 Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Fri, 6 Oct 2023 15:43:43 +0800
+Subject: [PATCH 5/6] bash, readline: downgrade to align with Gentoo
+
+---
+ elements/bootstrap/bash.bst                 |  2 +-
+ elements/bootstrap/readline.bst             |  4 +++-
+ patches/readline/readline-8.0-headers.patch | 17 +++++++++++++++++
+ 3 files changed, 21 insertions(+), 2 deletions(-)
+ create mode 100644 patches/readline/readline-8.0-headers.patch
+
+diff --git a/elements/bootstrap/bash.bst b/elements/bootstrap/bash.bst
+index ccf3ca41f..3649b0561 100644
+--- a/elements/bootstrap/bash.bst
++++ b/elements/bootstrap/bash.bst
+@@ -66,5 +66,5 @@ sources:
+ - kind: git_repo
+   url: savannah:bash.git
+   track: master
+-  ref: bash-5.2-15-gec8113b9861375e4e17b3307372569d429dec814
++  ref: bash-5.1-18-g9439ce094c9aa7557a9d53ac7b412a23aa66e36b
+ 
+diff --git a/elements/bootstrap/readline.bst b/elements/bootstrap/readline.bst
+index 17acb88c0..85934c0d1 100644
+--- a/elements/bootstrap/readline.bst
++++ b/elements/bootstrap/readline.bst
+@@ -47,6 +47,8 @@ sources:
+   - '*-alpha*'
+   - '*-beta*'
+   - '*-rc*'
+-  ref: readline-8.2-0-gf7a382fd09319b20ef4435b9b554183b605468c1
++  ref: readline-8.1-0-gcf3c762ecfff5b2f445647a0f1543693984a5540
+ - kind: patch
+   path: patches/readline/readline-disable-rpath.patch
++- kind: patch
++  path: patches/readline/readline-8.0-headers.patch
+diff --git a/patches/readline/readline-8.0-headers.patch b/patches/readline/readline-8.0-headers.patch
+new file mode 100644
+index 000000000..f19a3b136
+--- /dev/null
++++ b/patches/readline/readline-8.0-headers.patch
+@@ -0,0 +1,17 @@
++Required by bash-5.0 or else compilation fails:
++
++ bashline.c:69:10: fatal error: readline/rlmbutil.h: No such file or directory
++  #include <readline/rlmbutil.h>
++           ^~~~~~~~~~~~~~~~~~~~~
++
++--- readline-8.0/Makefile.in
+++++ readline-8.0/Makefile.in
++@@ -153,7 +153,7 @@
++ CREATED_TAGS = TAGS tags
++ 
++ INSTALLED_HEADERS = readline.h chardefs.h keymaps.h history.h tilde.h \
++-		    rlstdc.h rlconf.h rltypedefs.h
+++		    rlstdc.h rlconf.h rltypedefs.h rlmbutil.h
++ 
++ OTHER_DOCS = $(srcdir)/CHANGES $(srcdir)/INSTALL $(srcdir)/README
++ OTHER_INSTALLED_DOCS = CHANGES INSTALL README
+-- 
+2.41.0
+

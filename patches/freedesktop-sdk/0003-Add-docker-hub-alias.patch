@@ -1,0 +1,21 @@
+From a1d4c8bcef376981e4a04620841a4edce9c741c4 Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Fri, 6 Oct 2023 11:01:51 +0800
+Subject: [PATCH 3/6] Add docker hub alias
+
+---
+ include/_private/aliases.yml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/include/_private/aliases.yml b/include/_private/aliases.yml
+index e9bcccab5..076f9a14d 100644
+--- a/include/_private/aliases.yml
++++ b/include/_private/aliases.yml
+@@ -60,3 +60,4 @@ crates: https://static.crates.io/
+ 
+ # OCI registries
+ gitlab_registry: https://registry.gitlab.com/
++docker_registry: https://registry.hub.docker.com/
+-- 
+2.41.0
+

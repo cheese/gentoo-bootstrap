@@ -1,0 +1,291 @@
+From 083d3ff17c01dcb9bf0c2bfb6a2199d006bb1693 Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Sun, 12 Mar 2023 18:21:43 +0800
+Subject: [PATCH 1/6] Disable multiarch
+
+---
+ elements/bootstrap/bash.bst                  |  5 -----
+ elements/bootstrap/binutils.bst              |  2 +-
+ elements/bootstrap/build/binutils-stage1.bst |  2 +-
+ elements/bootstrap/build/gcc-stage2.bst      |  2 +-
+ elements/bootstrap/gcc.bst                   | 11 ++++-------
+ elements/bootstrap/glibc.bst                 | 14 ++------------
+ elements/bootstrap/linux-headers.bst         |  9 ---------
+ elements/bootstrap/ncurses.bst               |  5 -----
+ elements/components/gmp.bst                  | 12 ++++++------
+ elements/components/libgpg-error.bst         |  2 +-
+ elements/components/openssl.bst              |  4 ----
+ include/_private/arch.yml                    |  8 +++++++-
+ include/install-dirs.yml                     |  2 +-
+ 13 files changed, 24 insertions(+), 54 deletions(-)
+
+diff --git a/elements/bootstrap/bash.bst b/elements/bootstrap/bash.bst
+index 7aa96164e..ccf3ca41f 100644
+--- a/elements/bootstrap/bash.bst
++++ b/elements/bootstrap/bash.bst
+@@ -49,11 +49,6 @@ config:
+     - |
+       rm "%{install-root}%{infodir}/dir"
+ 
+-    - |
+-      mkdir -p "%{install-root}%{includedir}/%{gcc_triplet}/bash"
+-      mv "%{install-root}%{includedir}/bash/config.h" "%{install-root}%{includedir}/%{gcc_triplet}/bash/"
+-      mv "%{install-root}%{includedir}/bash/signames.h" "%{install-root}%{includedir}/%{gcc_triplet}/bash/"
+-
+ public:
+   bst:
+     split-rules:
+diff --git a/elements/bootstrap/binutils.bst b/elements/bootstrap/binutils.bst
+index d845297a6..9d9a0953c 100644
+--- a/elements/bootstrap/binutils.bst
++++ b/elements/bootstrap/binutils.bst
+@@ -31,7 +31,7 @@ variables:
+     --with-system-zlib
+     --with-debuginfod
+     %{disable-source}
+-    host_configargs='lt_cv_sys_lib_dlsearch_path_spec="/usr/lib/%{gcc_triplet}"'
++    host_configargs='lt_cv_sys_lib_dlsearch_path_spec="/usr/lib%{lib-postfix}"'
+ 
+ config:
+   install-commands:
+diff --git a/elements/bootstrap/build/binutils-stage1.bst b/elements/bootstrap/build/binutils-stage1.bst
+index 8677ecc40..b5718139b 100644
+--- a/elements/bootstrap/build/binutils-stage1.bst
++++ b/elements/bootstrap/build/binutils-stage1.bst
+@@ -28,7 +28,7 @@ variables:
+     --disable-multilib
+     --disable-werror
+     %{disable-source}
+-    --with-lib-path="%{sysroot}/usr/lib/%{gcc_triplet}:%{sysroot}/usr/lib:/usr/lib/%{gcc_triplet}:/usr/lib"
++    --with-lib-path="%{sysroot}/usr/lib%{lib-postfix}:%{sysroot}/usr/lib:/usr/lib/%{gcc_triplet}:/usr/lib"
+     --with-system-zlib
+   make-args: >-
+     MAKEINFO=true
+diff --git a/elements/bootstrap/build/gcc-stage2.bst b/elements/bootstrap/build/gcc-stage2.bst
+index 06d0f0dc1..b25c04c78 100644
+--- a/elements/bootstrap/build/gcc-stage2.bst
++++ b/elements/bootstrap/build/gcc-stage2.bst
+@@ -57,7 +57,7 @@ variables:
+ 
+   conf-local: >-
+     --target=%{triplet}
+-    --enable-multiarch
++    --disable-multiarch
+     --disable-multilib
+     --disable-bootstrap
+     --disable-nls
+diff --git a/elements/bootstrap/gcc.bst b/elements/bootstrap/gcc.bst
+index da94c8562..9a14be493 100644
+--- a/elements/bootstrap/gcc.bst
++++ b/elements/bootstrap/gcc.bst
+@@ -52,10 +52,7 @@ environment:
+   PYTHON: python3
+ 
+ variables:
+-  # gcc installs correctly libraries in the multiarch library
+-  # directory, but needs to be provided /usr/lib for --libdir.
+-  lib: lib
+-  multiarch_libdir: '%{prefix}/lib/%{gcc_triplet}'
++  multiarch_libdir: '%{libdir}'
+   autogen: |
+     autoreconf2.69 -fvi
+     for conf in */configure.ac; do
+@@ -75,7 +72,7 @@ variables:
+   conf-local: >-
+     --target=%{triplet}
+     --disable-multilib
+-    --enable-multiarch
++    --disable-multiarch
+     --disable-bootstrap
+     --with-build-sysroot=%{sysroot}
+     --enable-languages=c,c++,fortran,objc,obj-c++
+@@ -86,8 +83,8 @@ variables:
+     --enable-linker-build-id
+     --disable-libstdcxx-filesystem-ts
+     --enable-cet
+-    host_configargs='lt_cv_sys_lib_dlsearch_path_spec="/usr/lib/%{gcc_triplet}"'
+-    target_configargs='lt_cv_sys_lib_dlsearch_path_spec="/usr/lib/%{gcc_triplet}"'
++    host_configargs='lt_cv_sys_lib_dlsearch_path_spec="%{libdir}"'
++    target_configargs='lt_cv_sys_lib_dlsearch_path_spec="%{libdir}"'
+     %{conf-arch}
+ 
+   conf-link-args: |
+diff --git a/elements/bootstrap/glibc.bst b/elements/bootstrap/glibc.bst
+index fefe138b0..b4ef5323f 100644
+--- a/elements/bootstrap/glibc.bst
++++ b/elements/bootstrap/glibc.bst
+@@ -32,13 +32,6 @@ config:
+ 
+   install-commands:
+     (>):
+-    - install -dDm755 "%{install-root}%{includedir}/%{gcc_triplet}"
+-    - |
+-      for i in bits gnu sys fpu_control.h a.out.h ieee754.h; do
+-         mv "%{install-root}%{includedir}/${i}" \
+-            "%{install-root}%{includedir}/%{gcc_triplet}/"
+-      done
+-
+     - |
+       rm -r "%{install-root}%{libexecdir}/getconf"
+ 
+@@ -56,7 +49,7 @@ config:
+       rmdir "${sourcedir}"
+       prefixdir="%{install-root}%{prefix}${rtlddir}"
+       [ -d "${prefixdir}" ] || mkdir -p "${prefixdir}"
+-      ln -sr "${targetdir}/${dynamic_linker}" "${prefixdir}/${dynamic_linker}"
++      [ -e "${prefixdir}/${dynamic_linker}" ] || ln -sr "${targetdir}/${dynamic_linker}" "${prefixdir}/${dynamic_linker}"
+       case "${rtlddir}" in
+         /lib)
+           ;;
+@@ -87,7 +80,7 @@ variables:
+ 
+   conf-local: |
+     CFLAGS="$CFLAGS" \
+-    --with-headers=%{sysroot}%{includedir}/%{gcc_triplet}:%{sysroot}%{includedir} \
++    --with-headers=%{sysroot}%{includedir} \
+     --enable-stackguard-randomization \
+     --enable-stack-protector=strong \
+     --enable-bind-now \
+@@ -158,6 +151,3 @@ public:
+ 
+   cpe:
+     ignored:
+-    - CVE-2010-4756
+-    - CVE-2021-3998
+-    - CVE-2022-39046
+diff --git a/elements/bootstrap/linux-headers.bst b/elements/bootstrap/linux-headers.bst
+index 7a6ed79d8..a0160c927 100644
+--- a/elements/bootstrap/linux-headers.bst
++++ b/elements/bootstrap/linux-headers.bst
+@@ -22,15 +22,6 @@ variables:
+ config:
+   install-commands:
+   - make ARCH="%{kernel_arch}" INSTALL_HDR_PATH="%{install-root}%{prefix}" headers_install
+-  - |
+-    mkdir -p "%{install-root}%{includedir}/%{gcc_triplet}/linux"
+-    mkdir -p "%{install-root}%{includedir}/%{gcc_triplet}/asm"
+-    mv "%{install-root}%{includedir}/asm" \
+-       "%{install-root}%{includedir}/%{gcc_triplet}/"
+-    mv "%{install-root}%{includedir}/linux/a.out.h" \
+-       "%{install-root}%{includedir}/%{gcc_triplet}/linux/" || true
+-    mv "%{install-root}%{includedir}/linux/kvm_para.h" \
+-       "%{install-root}%{includedir}/%{gcc_triplet}/linux/" || true
+ 
+ public:
+   bst:
+diff --git a/elements/bootstrap/ncurses.bst b/elements/bootstrap/ncurses.bst
+index f1408f3c8..2fb1587d0 100644
+--- a/elements/bootstrap/ncurses.bst
++++ b/elements/bootstrap/ncurses.bst
+@@ -72,11 +72,6 @@ config:
+   - |
+     cd ncursesw-build && %{make-install}
+ 
+-  - |
+-    mkdir -p "%{install-root}%{includedir}/%{gcc_triplet}"
+-    mv "%{install-root}%{includedir}/curses.h" "%{install-root}%{includedir}/%{gcc_triplet}/"
+-    mv "%{install-root}%{includedir}/ncurses.h" "%{install-root}%{includedir}/%{gcc_triplet}/"
+-
+   - |
+     find "%{install-root}" -name "lib*.a" -exec rm {} ";"
+ 
+diff --git a/elements/components/gmp.bst b/elements/components/gmp.bst
+index 27b44b3cd..d263b9a76 100644
+--- a/elements/components/gmp.bst
++++ b/elements/components/gmp.bst
+@@ -9,12 +9,12 @@ variables:
+   conf-local: |
+     --enable-cxx
+ 
+-config:
+-  install-commands:
+-    (>):
+-    - |
+-      mkdir -p "%{install-root}%{includedir}/%{gcc_triplet}/"
+-      mv "%{install-root}%{includedir}/gmp.h" "%{install-root}%{includedir}/%{gcc_triplet}/"
++# config:
++#   install-commands:
++#     (>):
++#     - |
++#       mkdir -p "%{install-root}%{includedir}/%{gcc_triplet}/"
++#       mv "%{install-root}%{includedir}/gmp.h" "%{install-root}%{includedir}/%{gcc_triplet}/"
+ 
+ public:
+   bst:
+diff --git a/elements/components/libgpg-error.bst b/elements/components/libgpg-error.bst
+index 748aa9c65..1e42168ec 100644
+--- a/elements/components/libgpg-error.bst
++++ b/elements/components/libgpg-error.bst
+@@ -8,7 +8,7 @@ depends:
+   type: build
+ 
+ variables:
+-  includedir: "%{prefix}/include/%{gcc_triplet}"
++
+   conf-local: |
+     --enable-maintainer-mode \
+     --disable-doc
+diff --git a/elements/components/openssl.bst b/elements/components/openssl.bst
+index 52a2371ea..894c38779 100644
+--- a/elements/components/openssl.bst
++++ b/elements/components/openssl.bst
+@@ -42,10 +42,6 @@ config:
+     (>):
+     - rm %{install-root}%{libdir}/lib*.a
+ 
+-    - |
+-      mkdir -p "%{install-root}%{includedir}/%{gcc_triplet}/openssl"
+-      mv "%{install-root}%{includedir}/openssl/opensslconf.h" "%{install-root}%{includedir}/%{gcc_triplet}/openssl/"
+-
+ public:
+   bst:
+     split-rules:
+diff --git a/include/_private/arch.yml b/include/_private/arch.yml
+index c0b84166e..3f92d2457 100644
+--- a/include/_private/arch.yml
++++ b/include/_private/arch.yml
+@@ -1,7 +1,8 @@
+ # Definition of variables related to machine architecture
+ host-triplet: "%{triplet}"
+ build-triplet: "%{triplet}"
+-libtool_dlsearch_path: "/usr/lib/%{gcc_triplet}"
++lib-postfix: ""
++libtool_dlsearch_path: "/usr/lib%{lib-postfix}"
+ snap_arch: "%{arch}"
+ go-arch: "%{arch}"
+ 
+@@ -15,13 +16,18 @@ go-arch: "%{arch}"
+ - target_arch == "x86_64":
+     snap_arch: "amd64"
+     go-arch: "amd64"
++    lib-postfix: "64"
+ - target_arch == "aarch64":
+     snap_arch: "arm64"
+     go-arch: "arm64"
++    lib-postfix: "64"
+ - target_arch == "ppc64le":
+     go-arch: "ppc64le"
++    lib-postfix: "64"
+ - target_arch == "ppc64":
+     uname-arch: "ppc64"
+     go-arch: "ppc64"
++    lib-postfix: "64"
+ - target_arch == "riscv64":
+     go-arch: "riscv64"
++    lib-postfix: "64"
+diff --git a/include/install-dirs.yml b/include/install-dirs.yml
+index 8868f7423..14d25b325 100644
+--- a/include/install-dirs.yml
++++ b/include/install-dirs.yml
+@@ -2,7 +2,7 @@ variables:
+   sbindir: "%{bindir}"
+   sysconfdir: "/etc"
+   localstatedir: "/var"
+-  lib: "lib/%{gcc_triplet}"
++  lib: "lib%{lib-postfix}"
+   indep-libdir: "%{prefix}/lib"
+   debugdir: "%{indep-libdir}/debug"
+   sourcedir: "%{debugdir}/source"
+-- 
+2.41.0
+

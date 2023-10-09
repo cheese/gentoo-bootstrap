@@ -1,0 +1,43 @@
+From 25d8b86021ad998e7a60bca26b0219281c4831a4 Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Fri, 6 Oct 2023 15:45:29 +0800
+Subject: [PATCH 6/6] align triplet with Gentoo
+
+---
+ files/stripper/arch.cpp | 4 ++--
+ include/arch.yml        | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/files/stripper/arch.cpp b/files/stripper/arch.cpp
+index cc61b2459..2b708b62d 100644
+--- a/files/stripper/arch.cpp
++++ b/files/stripper/arch.cpp
+@@ -28,10 +28,10 @@ std::string get_triplet(known_arch arch) {
+   std::string triplet;
+   switch (arch) {
+   case known_arch::x86_64:
+-    triplet = "x86_64-unknown-linux-gnu";
++    triplet = "x86_64-pc-linux-gnu";
+     break ;
+   case known_arch::i686:
+-    triplet = "i686-unknown-linux-gnu";
++    triplet = "i686-pc-linux-gnu";
+     break ;
+   case known_arch::aarch64:
+     triplet = "aarch64-unknown-linux-gnu";
+diff --git a/include/arch.yml b/include/arch.yml
+index 53466e545..5666e43e0 100644
+--- a/include/arch.yml
++++ b/include/arch.yml
+@@ -1,7 +1,7 @@
+ variables:
+   # Definition of variables related to machine architecture
+   gcc_triplet: "%{gcc_arch}-linux-%{abi}"
+-  triplet: "%{arch}-unknown-linux-%{abi}"
++  triplet: "%{arch}-pc-linux-%{abi}"
+   gcc_arch: "%{arch}"
+   flatpak_arch: "%{arch}"
+   abi: "gnu"
+-- 
+2.41.0
+

@@ -1,0 +1,25 @@
+From 62e57b9508144f418a0503cc6f888a45ba281270 Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Fri, 6 Oct 2023 15:41:33 +0800
+Subject: [PATCH 4/6] libcap: use %{lib} variable
+
+---
+ elements/components/libcap.bst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/elements/components/libcap.bst b/elements/components/libcap.bst
+index 8044cf6fe..812cd5cf7 100644
+--- a/elements/components/libcap.bst
++++ b/elements/components/libcap.bst
+@@ -9,7 +9,7 @@ variables:
+   make-args: >-
+     DYNAMIC=yes
+     prefix="%{prefix}"
+-    lib="lib/%{gcc_triplet}"
++    lib="%{lib}"
+     SBINDIR="%{sbindir}"
+     RAISE_SETFCAP=no
+ 
+-- 
+2.41.0
+

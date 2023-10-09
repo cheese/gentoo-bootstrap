@@ -1,0 +1,4 @@
+# Project-wide configuration of the git_repo source
+
+config:
+  ref-format: git-describe
