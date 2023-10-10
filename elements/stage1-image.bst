@@ -1,7 +1,7 @@
 kind: compose
 
 build-depends:
-- gentoo/stage1-deps.bst
+- stage1-image-deps.bst
 
 config:
   exclude:

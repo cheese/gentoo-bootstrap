@@ -1,1 +1,8 @@
+# Ignore buildstream local state directories
 .bst
+
+# Ignore caches
+*.pyc
+
+# Ignore virtual envs
+.venv/

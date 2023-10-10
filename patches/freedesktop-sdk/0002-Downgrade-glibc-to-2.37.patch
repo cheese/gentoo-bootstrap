@@ -1,7 +1,7 @@
 From 8077e475592936fb164a2996bda339dc186dc5bc Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Fri, 6 Oct 2023 11:01:14 +0800
-Subject: [PATCH 2/6] Downgrade glibc to 2.37
+Subject: [PATCH 2/7] Downgrade glibc to 2.37
 
 ---
  elements/bootstrap/glibc.bst                | 1 +

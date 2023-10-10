@@ -1,12 +1,12 @@
 kind: stack
 
 depends:
-- gentoo/portage.bst
-- gentoo/elt-patches.bst
-- gentoo/db-pkg.bst
-- gentoo/gnuconfig.bst
-- gentoo/meson-format-array.bst
-- gentoo/mpc.bst
+- components/portage.bst
+- components/elt-patches.bst
+- db-pkg.bst
+- components/gnuconfig.bst
+- components/meson-format-array.bst
+- components/mpc.bst
 - freedesktop-sdk.bst:components/bash-config.bst
 - freedesktop-sdk.bst:components/bison.bst
 - freedesktop-sdk.bst:components/flex.bst
@@ -54,8 +54,11 @@ depends:
 public:
   bst:
     integration-commands:
-    - groupadd root -r -g 0
-    - useradd root -rm -u 0 -g 0 -d /root
-    - groupadd portage -r -g 250
-    - useradd portage -rm -u 250 -g 250 -d /var/tmp/portage -s /bin/false
-    - groupadd nobody -r -g 65534
+    - |
+      groupadd root -r -g 0
+      useradd root -rm -u 0 -g 0 -d /root
+      groupadd portage -r -g 250
+      useradd portage -rm -u 250 -g 250 -d /var/tmp/portage -s /bin/false
+      groupadd nobody -r -g 65534
+
+    - mkdir -p /var/cache/distfiles

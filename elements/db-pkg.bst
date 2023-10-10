@@ -1,7 +1,7 @@
 kind: compose
 
 build-depends:
-- gentoo/docker.bst
+- stage3-docker.bst
 
 config:
   include:

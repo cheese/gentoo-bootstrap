@@ -11,7 +11,7 @@ depends:
 - freedesktop-sdk.bst:components/patch.bst
 
 runtime-depends:
-- gentoo/wget.bst
+- components/wget.bst
 - freedesktop-sdk.bst:components/tar.bst
 - freedesktop-sdk.bst:components/util-linux-full.bst
 - freedesktop-sdk.bst:components/zstd.bst

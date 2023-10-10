@@ -4,7 +4,7 @@ depends:
 - freedesktop-sdk.bst:bootstrap-import.bst
 
 runtime-depends:
-- gentoo/gentoo-functions.bst
+- components/gentoo-functions.bst
 
 sources:
 - kind: git_repo

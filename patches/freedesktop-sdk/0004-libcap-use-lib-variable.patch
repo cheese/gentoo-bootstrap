@@ -1,7 +1,7 @@
 From 62e57b9508144f418a0503cc6f888a45ba281270 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Fri, 6 Oct 2023 15:41:33 +0800
-Subject: [PATCH 4/6] libcap: use %{lib} variable
+Subject: [PATCH 4/7] libcap: use %{lib} variable
 
 ---
  elements/components/libcap.bst | 2 +-

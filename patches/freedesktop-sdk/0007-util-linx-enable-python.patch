@@ -1,0 +1,29 @@
+From 7433edf6d7eb5939501798e0887736a2b463140a Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Mon, 9 Oct 2023 11:34:08 +0800
+Subject: [PATCH 7/7] util-linx: enable python
+
+---
+ elements/components/util-linux-base.bst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/elements/components/util-linux-base.bst b/elements/components/util-linux-base.bst
+index c1a7e6c75..8158ca162 100644
+--- a/elements/components/util-linux-base.bst
++++ b/elements/components/util-linux-base.bst
+@@ -6,10 +6,11 @@ build-depends:
+ - components/bison.bst
+ - components/git-minimal.bst
+ - components/libcap-ng.bst
++- components/python3.bst
+ 
+ variables:
+   conf-local: >-
+-    --without-python
++    --with-python
+     --disable-wall
+     --disable-makeinstall-chown
+     --disable-kill
+-- 
+2.41.0
+
