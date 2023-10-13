@@ -1,7 +1,7 @@
-From 25d8b86021ad998e7a60bca26b0219281c4831a4 Mon Sep 17 00:00:00 2001
+From b089f5673dc61cbbdcba178666da04f3b3c86062 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Fri, 6 Oct 2023 15:45:29 +0800
-Subject: [PATCH 6/7] align triplet with Gentoo
+Subject: [PATCH 5/6] align triplet with Gentoo
 
 ---
  files/stripper/arch.cpp | 4 ++--

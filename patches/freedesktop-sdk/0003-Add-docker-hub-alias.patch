@@ -1,7 +1,7 @@
-From a1d4c8bcef376981e4a04620841a4edce9c741c4 Mon Sep 17 00:00:00 2001
+From 5ccfc4a302d10a94aa5c63b1cf1f424d460fbb6b Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Fri, 6 Oct 2023 11:01:51 +0800
-Subject: [PATCH 3/7] Add docker hub alias
+Subject: [PATCH 3/6] Add docker hub alias
 
 ---
  include/_private/aliases.yml | 1 +

@@ -1,7 +1,7 @@
-From 7433edf6d7eb5939501798e0887736a2b463140a Mon Sep 17 00:00:00 2001
+From 9e1c26a3fcd26162c2473445d6d32d05f49cdc6f Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Mon, 9 Oct 2023 11:34:08 +0800
-Subject: [PATCH 7/7] util-linx: enable python
+Subject: [PATCH 6/6] util-linx: enable python
 
 ---
  elements/components/util-linux-base.bst | 3 ++-

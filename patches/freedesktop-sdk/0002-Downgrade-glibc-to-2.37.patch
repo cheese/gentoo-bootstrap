@@ -1,7 +1,7 @@
-From 8077e475592936fb164a2996bda339dc186dc5bc Mon Sep 17 00:00:00 2001
+From 33b03d3e7b127a1217ac149a0d8e041a7bf4316e Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Fri, 6 Oct 2023 11:01:14 +0800
-Subject: [PATCH 2/7] Downgrade glibc to 2.37
+Subject: [PATCH 2/6] Downgrade glibc to 2.37
 
 ---
  elements/bootstrap/glibc.bst                | 1 +
@@ -22,7 +22,7 @@ index b4ef5323f..afd6bcf0e 100644
  
  public:
 diff --git a/elements/bootstrap/include/glibc-source.yml b/elements/bootstrap/include/glibc-source.yml
-index 4e6c77099..42a9490cd 100644
+index ee93b65b7..42a9490cd 100644
 --- a/elements/bootstrap/include/glibc-source.yml
 +++ b/elements/bootstrap/include/glibc-source.yml
 @@ -1,7 +1,7 @@
@@ -30,13 +30,13 @@ index 4e6c77099..42a9490cd 100644
  - kind: git_repo
    url: sourceware:glibc.git
 -  track: release/2.38/master
--  ref: glibc-2.38-25-gf6445dc94da185b3d1ee283f0ca0a34c4e1986cc
+-  ref: glibc-2.38-27-g750a45a783906a19591fb8ff6b7841470f1f5701
 +  track: release/2.37/master
 +  ref: glibc-2.37-45-gb4e23c75aea756b4bddc4abcf27a1c6dca8b6bd3
  - kind: patch_queue
    path: patches/glibc
 diff --git a/elements/components/shadow.bst b/elements/components/shadow.bst
-index f39259548..3416753d9 100644
+index 5d1dc6df8..3416753d9 100644
 --- a/elements/components/shadow.bst
 +++ b/elements/components/shadow.bst
 @@ -18,7 +18,6 @@ variables:
@@ -51,7 +51,7 @@ index f39259548..3416753d9 100644
    track: '*.*'
    exclude:
    - '*-rc*'
--  ref: 4.14.0-0-g014536f5d55df33fc032d7a14d9f9d975d569722
+-  ref: 4.14.1-0-g817f3283d10ead2ba50c88b9d8f62fb8c7fa94c5
 +  ref: 4.13-0-g24b44b686ea2221405cfd806dede046cf1fd9584
 -- 
 2.41.0
