@@ -2,6 +2,9 @@ kind: stack
 
 depends:
 - components/portage.bst
+- components/eselect.bst
+- components/binutils-config.bst
+- components/gcc-config.bst
 - components/elt-patches.bst
 - db-pkg.bst
 - components/gnuconfig.bst

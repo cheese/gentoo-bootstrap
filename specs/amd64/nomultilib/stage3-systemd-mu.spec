@@ -1,0 +1,10 @@
+subarch: amd64
+target: stage3
+version_stamp: systemd-mergedusr-stage3
+rel_type: mergedusr
+profile: default/linux/amd64/17.1/no-multilib/systemd/merged-usr
+snapshot_treeish: current.xz
+source_subpath: mergedusr/stage1-amd64-systemd-mergedusr-stage2
+compression_mode: pixz
+portage_confdir: /var/tmp/releng/releases/portage/stages
+portage_prefix: releng
