@@ -5,7 +5,7 @@ build-depends:
 - freedesktop-sdk.bst:components/asciidoc.bst
 
 depends:
-- freedesktop-sdk.bst:components/util-linux-full.bst
+- components/python-libmount.bst
 - components/python-snakeoil.bst
 - components/python-fasteners.bst
 - components/python-tomli.bst

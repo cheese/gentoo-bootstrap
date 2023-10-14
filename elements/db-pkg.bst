@@ -1,4 +1,4 @@
-kind: compose
+kind: filter
 
 build-depends:
 - stage3-docker.bst
