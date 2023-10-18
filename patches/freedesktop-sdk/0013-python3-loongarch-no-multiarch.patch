@@ -1,0 +1,25 @@
+From 6768e4c63d801c4fcd40888f9b5b657d6dddec16 Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Wed, 18 Oct 2023 13:43:14 +0800
+Subject: [PATCH 13/13] python3: loongarch no multiarch
+
+---
+ elements/components/python3.bst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/elements/components/python3.bst b/elements/components/python3.bst
+index bf13bde45..e754593f1 100644
+--- a/elements/components/python3.bst
++++ b/elements/components/python3.bst
+@@ -52,7 +52,7 @@ config:
+   - |
+     rm -rf %{install-root}%{indep-libdir}/python%{version_long}/*/tests
+   - |
+-    rm -r %{install-root}/'%{indep-libdir}/python%{version_long}/config-%{version_long}-%{gcc_triplet}'
++    rm -r %{install-root}/%{indep-libdir}/python%{version_long}/config-%{version_long}*
+ 
+   - |
+     find "%{install-root}" -name "lib*.a" -exec rm {} ";"
+-- 
+2.41.0
+

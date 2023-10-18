@@ -1,0 +1,25 @@
+From 4352ea0c3569dc50c8eebf3a0346230573675859 Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Wed, 11 Oct 2023 23:09:04 +0800
+Subject: [PATCH 09/13] python3: add loongarch64 definition
+
+---
+ elements/components/python3.bst | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/elements/components/python3.bst b/elements/components/python3.bst
+index 234cc32ee..bf13bde45 100644
+--- a/elements/components/python3.bst
++++ b/elements/components/python3.bst
+@@ -75,6 +75,8 @@ config:
+     #endif
+     #elif defined(__riscv) && (__riscv_xlen == 64)
+     # include "riscv64-linux-gnu/python%{version_long}/pyconfig.h"
++    #elif defined(__loongarch__) && defined(__loongarch_double_float)
++    # include "loongarch64-linux-gnu/python%{version_long}/pyconfig.h"
+     #else
+     # error "Unknown cross-compiler"
+     #endif
+-- 
+2.41.0
+

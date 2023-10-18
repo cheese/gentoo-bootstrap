@@ -1,0 +1,25 @@
+From 42e8f21c99786dedbe6ae62545e6c451eeb0da19 Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Thu, 12 Jan 2023 20:47:01 +0800
+Subject: [PATCH 05/13] openssl: fix loongarch64 build
+
+---
+ elements/components/openssl.bst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/elements/components/openssl.bst b/elements/components/openssl.bst
+index 52a2371ea..e8ea8cce8 100644
+--- a/elements/components/openssl.bst
++++ b/elements/components/openssl.bst
+@@ -14,7 +14,7 @@ variables:
+       openssl-target: linux-generic32
+   - target_arch == "arm":
+       openssl-target: linux-generic32
+-  - target_arch == "riscv64":
++  - (target_arch == "riscv64" or target_arch == "loongarch64"):
+       openssl-target: linux-generic64
+   - target_arch in ["x86_64", "aarch64", "ppc64le"]:
+       arch-conf: enable-ec_nistp_64_gcc_128
+-- 
+2.41.0
+

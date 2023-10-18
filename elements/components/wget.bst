@@ -20,6 +20,14 @@ variables:
   conf-local: >-
     --disable-rpath
 
+config:
+  (?):
+  - arch == "loongarch64":
+      configure-commands:
+        (<):
+        - |
+          cp -v %{datadir}/gnu-config/config* build-aux
+
 sources:
 - kind: tar
   url: ftp_gnu_org:wget/wget-1.21.tar.lz

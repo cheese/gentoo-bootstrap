@@ -1,0 +1,197 @@
+From a52f0b345f5affea56df06423cfc69740e4751b6 Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Tue, 7 Mar 2023 11:41:55 +0800
+Subject: [PATCH 01/13] Basic loongarch64 definitions
+
+---
+ elements/bootstrap/include/flags.yml         | 3 +++
+ elements/bootstrap/include/gcc-arch-opts.yml | 4 ++++
+ elements/bootstrap/linux-headers.bst         | 2 ++
+ elements/components/linux.bst                | 2 ++
+ files/stripper/arch.cpp                      | 3 +++
+ files/stripper/arch.hpp                      | 2 +-
+ files/stripper/elfutils.cpp                  | 7 +++++++
+ include/_private/arch.yml                    | 2 ++
+ include/arch.yml                             | 4 ++++
+ include/flags.yml                            | 5 +++++
+ project.conf                                 | 1 +
+ 11 files changed, 34 insertions(+), 1 deletion(-)
+
+diff --git a/elements/bootstrap/include/flags.yml b/elements/bootstrap/include/flags.yml
+index 82b7af388..d266b97b8 100644
+--- a/elements/bootstrap/include/flags.yml
++++ b/elements/bootstrap/include/flags.yml
+@@ -22,6 +22,7 @@ variables:
+   build_powerpc64le_flags: ""
+   build_powerpc64_flags: ""
+   build_riscv64_flags: ""
++  build_loongarch64_flags: ""
+ 
+   # The final composition of `build_flags` includes `build_arch_flags`
+   # which can be one of the preset arch specific definitions above
+@@ -49,3 +50,5 @@ variables:
+       build_arch_flags: "%{build_powerpc64_flags}"
+   - bootstrap_build_arch == "riscv64":
+       build_arch_flags: "%{build_riscv64_flags}"
++  - target_arch == "loongarch64":
++      build_arch_flags: "%{build_loongarch64_flags}"
+diff --git a/elements/bootstrap/include/gcc-arch-opts.yml b/elements/bootstrap/include/gcc-arch-opts.yml
+index aefad152b..3c328735b 100644
+--- a/elements/bootstrap/include/gcc-arch-opts.yml
++++ b/elements/bootstrap/include/gcc-arch-opts.yml
+@@ -14,6 +14,10 @@ variables:
+         --with-cpu=pentium4
+         --with-tune=generic
+         --with-fpmath=sse
++  - target_arch == "loongarch64":
++      conf-arch: >-
++        --with-arch=loongarch64
++        --with-tune=loongarch64
+   - target_arch == "ppc64le":
+       conf-arch: >-
+         --with-cpu=power8
+diff --git a/elements/bootstrap/linux-headers.bst b/elements/bootstrap/linux-headers.bst
+index 7a6ed79d8..c5a78f6ed 100644
+--- a/elements/bootstrap/linux-headers.bst
++++ b/elements/bootstrap/linux-headers.bst
+@@ -14,6 +14,8 @@ variables:
+       kernel_arch: arm64
+   - target_arch == "i686":
+       kernel_arch: i386
++  - target_arch == "loongarch64":
++      kernel_arch: loongarch
+   - target_arch == "ppc64le" or target_arch == "ppc64":
+       kernel_arch: powerpc
+   - target_arch == "riscv64" or target_arch == "riscv32":
+diff --git a/elements/components/linux.bst b/elements/components/linux.bst
+index ba7a926d9..c4786c353 100644
+--- a/elements/components/linux.bst
++++ b/elements/components/linux.bst
+@@ -33,6 +33,8 @@ variables:
+   - target_arch == "riscv64":
+       kernel_arch: riscv
+       image-name: arch/riscv/boot/Image
++  - target_arch == "loongarch64":
++      kernel_arch: loongarch
+ 
+ environment:
+   ARCH: '%{kernel_arch}'
+diff --git a/files/stripper/arch.cpp b/files/stripper/arch.cpp
+index cc61b2459..41a48c518 100644
+--- a/files/stripper/arch.cpp
++++ b/files/stripper/arch.cpp
+@@ -48,6 +48,9 @@ std::string get_triplet(known_arch arch) {
+   case known_arch::riscv64:
+     triplet = "riscv64-unknown-linux-gnu";
+     break ;
++  case known_arch::loongarch64:
++    triplet = "loongarch64-unknown-linux-gnu";
++    break ;
+   case known_arch::unknown:
+     throw std::runtime_error("Unknown toolchain");
+   }
+diff --git a/files/stripper/arch.hpp b/files/stripper/arch.hpp
+index c77b4cf0e..cc365882f 100644
+--- a/files/stripper/arch.hpp
++++ b/files/stripper/arch.hpp
+@@ -28,7 +28,7 @@
+ #include <filesystem>
+ #include <vector>
+ 
+-enum class known_arch { x86_64, i686, aarch64, arm, ppc64le, ppc64, riscv64, unknown };
++enum class known_arch { x86_64, i686, aarch64, arm, ppc64le, ppc64, riscv64, loongarch64, unknown };
+ enum class endianness { le, be};
+ 
+ std::string get_triplet(known_arch arch);
+diff --git a/files/stripper/elfutils.cpp b/files/stripper/elfutils.cpp
+index a3039a02c..5923dc985 100644
+--- a/files/stripper/elfutils.cpp
++++ b/files/stripper/elfutils.cpp
+@@ -25,6 +25,11 @@
+ #include <type_traits>
+ #include <cstring>
+ 
++// defined since glibc 2.36
++#if !defined(EM_LOONGARCH)
++#define EM_LOONGARCH 258
++#endif
++
+ known_arch get_arch(Elf32_Ehdr const* header) {
+   auto endian = get_endianness(header);
+   switch (header->e_machine) {
+@@ -43,6 +48,8 @@ known_arch get_arch(Elf32_Ehdr const* header) {
+       return known_arch::ppc64;
+     else
+       return known_arch::ppc64le;
++  case EM_LOONGARCH:
++    return known_arch::loongarch64;
+   }
+   return known_arch::unknown;
+ }
+diff --git a/include/_private/arch.yml b/include/_private/arch.yml
+index c0b84166e..3bf5df58d 100644
+--- a/include/_private/arch.yml
++++ b/include/_private/arch.yml
+@@ -25,3 +25,5 @@ go-arch: "%{arch}"
+     go-arch: "ppc64"
+ - target_arch == "riscv64":
+     go-arch: "riscv64"
++- target_arch == "loongarch64":
++    go-arch: "loong64"
+diff --git a/include/arch.yml b/include/arch.yml
+index 53466e545..f27e37ee5 100644
+--- a/include/arch.yml
++++ b/include/arch.yml
+@@ -35,3 +35,7 @@ variables:
+       arch: "riscv64"
+       gcc_arch: "riscv64"
+       linux-root: 72EC70A6-CF74-40E6-BD49-4BDA08E8F224
++  - target_arch == "loongarch64":
++      arch: "loongarch64"
++      gcc_arch: "loongarch64"
++      linux-root: 77055800-792c-4f94-b39a-98c91b762bb6
+diff --git a/include/flags.yml b/include/flags.yml
+index 8827972b9..da77388e0 100644
+--- a/include/flags.yml
++++ b/include/flags.yml
+@@ -61,6 +61,7 @@ variables:
+   target_riscv64_flags: >-
+     -fasynchronous-unwind-tables
+     -fstack-clash-protection
++  target_loongarch64_flags: ""
+ 
+   # The final composition of `target_flags` includes `target_arch_flags`
+   # which can be one of the preset arch specific definitions above
+@@ -92,6 +93,7 @@ variables:
+   rust_target_ppc64le_flags: ""
+   rust_target_ppc64_flags: ""
+   rust_target_riscv64_flags: ""
++  rust_target_loongarch64_flags: ""
+ 
+   rust_target_flags: >-
+     %{rust_target_arch_flags}
+@@ -132,6 +134,9 @@ variables:
+   - target_arch == "riscv64":
+       target_arch_flags: "%{target_riscv64_flags}"
+       rust_target_arch_flags: "%{rust_target_riscv64_flags}"
++  - target_arch == "loongarch64":
++      target_arch_flags: "%{target_loongarch64_flags}"
++      rust_target_arch_flags: "%{rust_target_loongarch64_flags}"
+ 
+ environment:
+   CFLAGS:  "%{target_flags}"
+diff --git a/project.conf b/project.conf
+index d24474654..7a769e044 100644
+--- a/project.conf
++++ b/project.conf
+@@ -110,6 +110,7 @@ options:
+     - ppc64le
+     - ppc64
+     - riscv64
++    - loongarch64
+ 
+   snap_grade:
+     type: enum
+-- 
+2.41.0
+
