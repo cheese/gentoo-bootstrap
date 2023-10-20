@@ -1,0 +1,10 @@
+subarch: rv64_lp64d
+target: stage1
+version_stamp: systemd-mergedusr-stage2
+rel_type: mergedusr
+profile: default/linux/riscv/20.0/rv64gc/lp64d/systemd/merged-usr
+snapshot_treeish: current.xz
+source_subpath: fsdk/stage1-riscv-systemd-mergedusr
+compression_mode: pixz
+portage_confdir: /var/tmp/releng/releases/portage/stages
+portage_prefix: releng

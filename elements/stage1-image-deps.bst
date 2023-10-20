@@ -61,7 +61,9 @@ public:
       groupadd root -r -g 0
       useradd root -rm -u 0 -g 0 -d /root
       groupadd portage -r -g 250
-      useradd portage -rm -u 250 -g 250 -d /var/tmp/portage -s /bin/false
+      useradd portage -rm -u 250 -g 250 -d /var/tmp/portage -s /sbin/nologin
+      groupadd messagebus -r -g 101
+      useradd messagebus -rm -u 101 -g 101 -d /dev/null -s /sbin/nologin
       groupadd nobody -r -g 65534
 
     - mkdir -p /var/cache/distfiles

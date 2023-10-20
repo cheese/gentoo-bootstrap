@@ -1,7 +1,7 @@
-From a52f0b345f5affea56df06423cfc69740e4751b6 Mon Sep 17 00:00:00 2001
+From 6d9d508e31c123f54eac8be2a596952c8a77ac43 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Tue, 7 Mar 2023 11:41:55 +0800
-Subject: [PATCH 01/13] Basic loongarch64 definitions
+Subject: [PATCH 01/14] Basic loongarch64 definitions
 
 ---
  elements/bootstrap/include/flags.yml         | 3 +++
@@ -64,7 +64,7 @@ index 7a6ed79d8..c5a78f6ed 100644
        kernel_arch: powerpc
    - target_arch == "riscv64" or target_arch == "riscv32":
 diff --git a/elements/components/linux.bst b/elements/components/linux.bst
-index ba7a926d9..c4786c353 100644
+index b655b39be..2ae3bece4 100644
 --- a/elements/components/linux.bst
 +++ b/elements/components/linux.bst
 @@ -33,6 +33,8 @@ variables:

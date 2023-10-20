@@ -1,7 +1,7 @@
-From ea95fd13cd1237629ba48db7ffc7d87b26098f17 Mon Sep 17 00:00:00 2001
+From 133af70d579d8800db95551ffe84502f46442277 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Thu, 12 Jan 2023 18:08:23 +0800
-Subject: [PATCH 03/13] pcre2: version 10.42 does not support jit for
+Subject: [PATCH 03/14] pcre2: version 10.42 does not support jit for
  loongarch64
 
 ---

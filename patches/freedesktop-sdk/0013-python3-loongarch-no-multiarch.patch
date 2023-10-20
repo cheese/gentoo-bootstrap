@@ -1,7 +1,7 @@
-From 6768e4c63d801c4fcd40888f9b5b657d6dddec16 Mon Sep 17 00:00:00 2001
+From 090f0e9bcb7c268a5b540fc81637f3a5b06c8475 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Wed, 18 Oct 2023 13:43:14 +0800
-Subject: [PATCH 13/13] python3: loongarch no multiarch
+Subject: [PATCH 13/14] python3: loongarch no multiarch
 
 ---
  elements/components/python3.bst | 2 +-

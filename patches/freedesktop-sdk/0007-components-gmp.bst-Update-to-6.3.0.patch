@@ -1,7 +1,7 @@
-From 86f64c943e09364fe8b48cf54a93bf37926e66cb Mon Sep 17 00:00:00 2001
+From 5c3924cf363842282587cb5314d09d283bc882a8 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Wed, 18 Oct 2023 12:51:09 +0800
-Subject: [PATCH 07/13] components/gmp.bst: Update to 6.3.0
+Subject: [PATCH 07/14] components/gmp.bst: Update to 6.3.0
 
 ---
  elements/components/gmp.bst                   |  9 ++-----

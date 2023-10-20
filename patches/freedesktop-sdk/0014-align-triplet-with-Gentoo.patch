@@ -1,0 +1,38 @@
+From 943d799bf0de72baebdbeb46ec9d57519ce05dbb Mon Sep 17 00:00:00 2001
+From: Robin Lee <robinlee.sysu@gmail.com>
+Date: Fri, 6 Oct 2023 15:45:29 +0800
+Subject: [PATCH 14/14] align triplet with Gentoo
+
+---
+ files/stripper/arch.cpp | 2 +-
+ include/arch.yml        | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/files/stripper/arch.cpp b/files/stripper/arch.cpp
+index 41a48c518..8c6feb045 100644
+--- a/files/stripper/arch.cpp
++++ b/files/stripper/arch.cpp
+@@ -28,7 +28,7 @@ std::string get_triplet(known_arch arch) {
+   std::string triplet;
+   switch (arch) {
+   case known_arch::x86_64:
+-    triplet = "x86_64-unknown-linux-gnu";
++    triplet = "x86_64-pc-linux-gnu";
+     break ;
+   case known_arch::i686:
+     triplet = "i686-unknown-linux-gnu";
+diff --git a/include/arch.yml b/include/arch.yml
+index f27e37ee5..fbcb16ef0 100644
+--- a/include/arch.yml
++++ b/include/arch.yml
+@@ -9,6 +9,7 @@ variables:
+   (?):
+   - target_arch == "x86_64":
+       arch: "x86_64"
++      triplet: "%{arch}-pc-linux-%{abi}"
+       linux-root: 4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
+   - target_arch == "i686":
+       arch: "i686"
+-- 
+2.41.0
+

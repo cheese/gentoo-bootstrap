@@ -1,7 +1,7 @@
-From cfff88702eb7a7c743c2224488b344090d563941 Mon Sep 17 00:00:00 2001
+From 39bc8e19481abcc7bc02c2c6d4a3daccb0d518a7 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Sat, 4 Feb 2023 13:54:46 +0800
-Subject: [PATCH 02/13] binutils: disable gold for loongarch64
+Subject: [PATCH 02/14] binutils: disable gold for loongarch64
 
 ---
  elements/bootstrap/binutils.bst | 6 +++++-

@@ -1,7 +1,7 @@
-From 576ddd1fd6091ad73cdfc7e01889f9377214fc4e Mon Sep 17 00:00:00 2001
+From 8abc14173359244bcecf7b1f07aba9c9b1f0643f Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Fri, 6 Oct 2023 11:01:14 +0800
-Subject: [PATCH 11/13] Downgrade glibc to 2.37
+Subject: [PATCH 11/14] Downgrade glibc to 2.37
 
 ---
  elements/bootstrap/glibc.bst                | 1 +
@@ -10,10 +10,10 @@ Subject: [PATCH 11/13] Downgrade glibc to 2.37
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/elements/bootstrap/glibc.bst b/elements/bootstrap/glibc.bst
-index 8ad0deedc..1f9df091b 100644
+index a5dae4145..0a94e9a85 100644
 --- a/elements/bootstrap/glibc.bst
 +++ b/elements/bootstrap/glibc.bst
-@@ -91,6 +91,7 @@ variables:
+@@ -98,6 +98,7 @@ variables:
      --enable-stack-protector=strong \
      --enable-bind-now \
      --disable-werror \

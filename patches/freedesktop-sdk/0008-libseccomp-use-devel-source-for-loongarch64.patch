@@ -1,7 +1,7 @@
-From a157c62120ee873a8a0a18e3d2ea4fbde7cb3afa Mon Sep 17 00:00:00 2001
+From 713da20eb0d68fb14256bafbc40e43b881eacb6a Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Thu, 12 Jan 2023 20:45:15 +0800
-Subject: [PATCH 08/13] libseccomp: use devel source for loongarch64
+Subject: [PATCH 08/14] libseccomp: use devel source for loongarch64
 
 ---
  elements/components/libseccomp.bst | 24 +++++++++++++++++++-----

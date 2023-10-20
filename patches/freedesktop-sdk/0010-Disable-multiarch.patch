@@ -1,26 +1,26 @@
-From bd98de139e2f971cb2e296c7d77fb4fbb998d193 Mon Sep 17 00:00:00 2001
+From 0f4192834a6046c5ead2b74023f8a8ab659fa9fb Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Sun, 12 Mar 2023 18:21:43 +0800
-Subject: [PATCH 10/13] Disable multiarch
+Subject: [PATCH 10/14] Disable multiarch
 
 ---
- elements/bootstrap/bash.bst                  |  5 -----
- elements/bootstrap/binutils-build-deps.bst   |  4 ++--
+ elements/bootstrap/bash.bst                  |  5 ----
+ elements/bootstrap/binutils-build-deps.bst   |  4 +--
  elements/bootstrap/binutils.bst              |  2 +-
  elements/bootstrap/build/binutils-stage1.bst |  2 +-
  elements/bootstrap/build/gcc-stage1.bst      |  2 +-
  elements/bootstrap/build/gcc-stage2.bst      |  2 +-
- elements/bootstrap/gcc.bst                   | 11 ++++-------
- elements/bootstrap/glibc.bst                 | 20 ++++++++------------
- elements/bootstrap/linux-headers.bst         |  9 ---------
- elements/bootstrap/ncurses.bst               |  5 -----
- elements/components/gmp.bst                  |  7 -------
+ elements/bootstrap/gcc.bst                   | 11 +++-----
+ elements/bootstrap/glibc.bst                 | 27 +++++++++++---------
+ elements/bootstrap/linux-headers.bst         |  9 -------
+ elements/bootstrap/ncurses.bst               |  5 ----
+ elements/components/gmp.bst                  |  7 -----
  elements/components/libgpg-error.bst         |  1 -
- elements/components/openssl.bst              |  4 ----
- include/_private/arch.yml                    |  9 ++++++++-
+ elements/components/openssl.bst              |  4 ---
+ include/_private/arch.yml                    |  9 ++++++-
  include/install-dirs.yml                     |  2 +-
- patches/gcc/gcc-multiarch-enable-riscv.patch | 10 ----------
- 16 files changed, 27 insertions(+), 68 deletions(-)
+ patches/gcc/gcc-multiarch-enable-riscv.patch | 10 --------
+ 16 files changed, 34 insertions(+), 68 deletions(-)
  delete mode 100644 patches/gcc/gcc-multiarch-enable-riscv.patch
 
 diff --git a/elements/bootstrap/bash.bst b/elements/bootstrap/bash.bst
@@ -143,7 +143,7 @@ index da94c8562..9a14be493 100644
  
    conf-link-args: |
 diff --git a/elements/bootstrap/glibc.bst b/elements/bootstrap/glibc.bst
-index fefe138b0..8ad0deedc 100644
+index fefe138b0..a5dae4145 100644
 --- a/elements/bootstrap/glibc.bst
 +++ b/elements/bootstrap/glibc.bst
 @@ -32,13 +32,6 @@ config:
@@ -169,20 +169,27 @@ index fefe138b0..8ad0deedc 100644
        case "${rtlddir}" in
          /lib)
            ;;
-@@ -72,6 +65,12 @@ config:
+@@ -72,6 +65,19 @@ config:
      - |
        rm "%{install-root}%{infodir}/dir"
  
-+    # https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/DRHT5YTPK4WWVGL3GIN5BF2IKX2ODHZ3/
 +    - |
-+      if [ %{target_arch} = "riscv64" ]; then
-+          ln -s . "%{install-root}%{libdir}/lp64d"
++      if ! [ -e "%{install-root}"/%{lib} ]; then
++        ln -vs usr/%{lib} "%{install-root}"/%{lib}
 +      fi
++
++  (?):
++  # https://lists.fedoraproject.org/archives/list/devel@lists.fedoraproject.org/thread/DRHT5YTPK4WWVGL3GIN5BF2IKX2ODHZ3/
++  - target_arch == "riscv64":
++      install-commands:
++        (>):
++        - |
++          ln -s . "%{install-root}%{libdir}/lp64d"
 +
  (@):
  - elements/bootstrap/include/target.yml
  - elements/bootstrap/include/glibc-source.yml
-@@ -87,7 +86,7 @@ variables:
+@@ -87,7 +93,7 @@ variables:
  
    conf-local: |
      CFLAGS="$CFLAGS" \
@@ -191,7 +198,7 @@ index fefe138b0..8ad0deedc 100644
      --enable-stackguard-randomization \
      --enable-stack-protector=strong \
      --enable-bind-now \
-@@ -158,6 +157,3 @@ public:
+@@ -158,6 +164,3 @@ public:
  
    cpe:
      ignored:

@@ -1,7 +1,7 @@
-From 4352ea0c3569dc50c8eebf3a0346230573675859 Mon Sep 17 00:00:00 2001
+From eec2ad1d26ae720f0c4a5fb2dd4c9a28ce08db44 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Wed, 11 Oct 2023 23:09:04 +0800
-Subject: [PATCH 09/13] python3: add loongarch64 definition
+Subject: [PATCH 09/14] python3: add loongarch64 definition
 
 ---
  elements/components/python3.bst | 2 ++

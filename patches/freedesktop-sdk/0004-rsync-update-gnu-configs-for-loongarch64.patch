@@ -1,7 +1,7 @@
-From 0eb55bcf2daa488d76714f9478ba1e4a38ae5ff0 Mon Sep 17 00:00:00 2001
+From 4f32b6accf0368439351b035da7c3fcbd61b8737 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Wed, 11 Oct 2023 23:10:19 +0800
-Subject: [PATCH 04/13] rsync: update gnu configs for loongarch64
+Subject: [PATCH 04/14] rsync: update gnu configs for loongarch64
 
 ---
  elements/components/rsync.bst | 8 ++++++++

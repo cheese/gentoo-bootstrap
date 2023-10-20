@@ -1,7 +1,7 @@
-From 42e8f21c99786dedbe6ae62545e6c451eeb0da19 Mon Sep 17 00:00:00 2001
+From 3beda482474e794fdce6673f41e93e8dc37febe4 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Thu, 12 Jan 2023 20:47:01 +0800
-Subject: [PATCH 05/13] openssl: fix loongarch64 build
+Subject: [PATCH 06/14] openssl: fix loongarch64 build
 
 ---
  elements/components/openssl.bst | 2 +-
