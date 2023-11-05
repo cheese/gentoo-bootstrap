@@ -1,7 +1,7 @@
-From 109f9851def3c69223d59684c2d986a9fb730a17 Mon Sep 17 00:00:00 2001
+From c9d8c77399aa401d6ca07686c04cfa4e634c8e32 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Fri, 6 Oct 2023 15:43:43 +0800
-Subject: [PATCH 12/14] bash, readline: downgrade to align with Gentoo
+Subject: [PATCH 5/6] bash, readline: downgrade to align with Gentoo
 
 ---
  elements/bootstrap/bash.bst                 |  9 ++++++++-

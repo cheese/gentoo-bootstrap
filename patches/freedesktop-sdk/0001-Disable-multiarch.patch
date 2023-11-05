@@ -1,7 +1,7 @@
-From 0f4192834a6046c5ead2b74023f8a8ab659fa9fb Mon Sep 17 00:00:00 2001
+From bf3bd6e7e5908bedc9e0fbccc8a36182290daa05 Mon Sep 17 00:00:00 2001
 From: Robin Lee <robinlee.sysu@gmail.com>
 Date: Sun, 12 Mar 2023 18:21:43 +0800
-Subject: [PATCH 10/14] Disable multiarch
+Subject: [PATCH 1/6] Disable multiarch
 
 ---
  elements/bootstrap/bash.bst                  |  5 ----
@@ -272,7 +272,7 @@ index 748aa9c65..977598341 100644
      --enable-maintainer-mode \
      --disable-doc
 diff --git a/elements/components/openssl.bst b/elements/components/openssl.bst
-index e8ea8cce8..b77e8c503 100644
+index a6f51a9ab..65fea7fbb 100644
 --- a/elements/components/openssl.bst
 +++ b/elements/components/openssl.bst
 @@ -42,10 +42,6 @@ config:

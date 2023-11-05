@@ -7,7 +7,7 @@ config:
 sources:
 - kind: git_repo
   url: gitlab:freedesktop-sdk/freedesktop-sdk.git
-  track: 'freedesktop-sdk-23.08.*'
-  ref: freedesktop-sdk-23.08.4-0-gadbdb230b583c20a099a8c36f045a15ec4663616
+  track: cheeselee/loongarch64-minimal-vm
+  ref: freedesktop-sdk-23.08rc.2-526-g4cf8c70cf6f691e29c64892b3b0270abe959bdee
 - kind: patch_queue
   path: patches/freedesktop-sdk
