@@ -40,4 +40,4 @@ sources:
 - kind: git_repo
   url: github:gentoo/portage.git
   track: 'portage-*.*.*'
-  ref: portage-3.0.51-0-g863c4a6e8d01218e8ac56c523a7951b67ca48297
+  ref: portage-3.0.54-0-g9b89b9824dad7c6e99ecd6f16d6668631bdbf56c
