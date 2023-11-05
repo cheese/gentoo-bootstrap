@@ -1,0 +1,10 @@
+subarch: loong
+target: stage1
+version_stamp: systemd-mergedusr-stage2
+rel_type: mergedusr
+profile: default/linux/loong/22.0/la64v100/lp64d/systemd/merged-usr
+snapshot_treeish: current.xz
+source_subpath: fsdk/stage1-loong-systemd-mergedusr
+compression_mode: pixz
+portage_confdir: /var/tmp/releng/releases/portage/stages
+portage_prefix: releng

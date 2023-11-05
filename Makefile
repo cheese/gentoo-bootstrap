@@ -7,6 +7,7 @@ GENTOO_ARCH=riscv
 GENTOO_SUBARCH=rv64_lp64d
 else ifeq ($(ARCH),loongarch64)
 GENTOO_ARCH=loong
+GENTOO_SUBARCH=loong
 endif
 TMP_CATALYST=tmp/catalyst
 TMP_RELENG=tmp/releng
